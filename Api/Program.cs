@@ -14,6 +14,17 @@ using Services.Domain.CompositionsService.TeamCompositionService;
 using Services.Domain.RepresentativeService;
 using Services.LeaderBoardLineService;
 using Services.MajorsService;
+using DotNetEnv;
+
+
+// Load Enviroment Variable from .env
+Env.Load();
+// Load Conection String
+//string? myVar = Environment.GetEnvironmentVariable("MI_VARIABLE");
+
+
+//Console.WriteLine($"MI_VARIABLE: {myVar}");
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +44,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             IssuerSigningKey =
                 new SymmetricSecurityKey(
-                    Encoding.ASCII.GetBytes("candelacandelacandela")), // Replace with your secret key
+                    Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("SECRET_KEY") ?? "default"
+                    )
+                    ), // Replace with your secret key
             ValidateIssuer = false,
             ValidateAudience = false
         };
